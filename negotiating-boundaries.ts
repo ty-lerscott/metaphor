@@ -41,11 +41,16 @@ export default function negotiateBoundaries(graph: Graph): { userA: BoundaryNode
         } else {
             /**
              * But when something is not negotiable,
-             * it already knows where it belongs.
+             * but shared, we keep who we are but disentangle.
              * This is the boundary drawn not in anger, but in truth.
              */
-            node.finalOwner = node.affinity === "shared" ?  Math.random() > 0.5 ? "userA" : "userB" : node.affinity; // default shared to A, gently
-            (node.finalOwner === "userA" ? userA : userB).push(node);
+            if (node.affinity === "shared") {
+                userA.push(node);
+                userB.push(node);
+            } else {
+                node.finalOwner = node.affinity;
+                (node.finalOwner === "userA" ? userA : userB).push(node);
+            }
         }
     }
   
