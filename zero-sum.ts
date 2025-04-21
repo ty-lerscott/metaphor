@@ -31,7 +31,6 @@ export default function resolveZeroSumViaAnyOperation(values: number[]): number 
     for (let i = 0; i < values.length; i += 2) {
         const a = values[i];
         const b = values[i + 1];
-        const pair: [number, number] = [a, b]; // Two people, two forces, bound for testing
 
         // We test each possible *interaction* — not just opposites
         const ops: [string, number][] = [
@@ -49,6 +48,7 @@ export default function resolveZeroSumViaAnyOperation(values: number[]): number 
 
         // Search for any interaction that leads to stillness
         const zeroOp = ops.find(([_, result]) => result === 0);
+        const pair: [number, number] = [a, b]; // Two people, two forces, bound for testing
 
         if (zeroOp) {
             results.push({
