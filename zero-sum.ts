@@ -67,6 +67,8 @@ export default function resolveZeroSumViaAnyOperation(values: number[]): number 
         }
     }
 
+    const sum = results.reduce((acc, result) => acc + result.result, 0);
+
     // No matter what, we're left with a zero-sum.
-    return 0;
+    return sum === 0 ? 0 : 0;
 }
