@@ -60,12 +60,6 @@ MIT — do what you will, gently.
 
 ## 🖋️ Author
 
-Tyler Scott Williams
-Artist and engineer
-ty@lerscott.com
-
----
-
-## Sidenote
-
-Let me know if you'd like help turning this into a GitHub repository, adding visuals, or writing `CONTRIBUTING.md`, project tags, or anything else. Would you like a stylized logo or ASCII title for it, too?
+- Tyler Scott Williams
+- Artist and engineer
+- ty@lerscott.com
