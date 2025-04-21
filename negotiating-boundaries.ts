@@ -22,32 +22,32 @@ type BoundaryNode = {
     finalOwner?: "userA" | "userB"; // Where it ends up
 };
   
-  type Graph = BoundaryNode[];
+type Graph = BoundaryNode[];
   
-  function negotiateBoundaries(graph: Graph): { userA: BoundaryNode[]; userB: BoundaryNode[] } {
+export default function negotiateBoundaries(graph: Graph): { userA: BoundaryNode[]; userB: BoundaryNode[] } {
     const userA: BoundaryNode[] = [];
     const userB: BoundaryNode[] = [];
   
     for (const node of graph) {
-      if (node.negotiable) {
-        /**
-         * When something is negotiable,
-         * it carries no allegiance — only memory.
-         * So we ask the wind, flip a coin, or follow instinct.
-         * Let it fall where it may.
-         */
-        const final = Math.random() > 0.5 ? "userA" : "userB";
-        node.finalOwner = final;
-        final === "userA" ? userA.push(node) : userB.push(node);
-      } else {
-        /**
-         * But when something is not negotiable,
-         * it already knows where it belongs.
-         * This is the boundary drawn not in anger, but in truth.
-         */
-        node.finalOwner = node.affinity === "shared" ? "userA" : node.affinity; // default shared to A, gently
-        node.finalOwner === "userA" ? userA.push(node) : userB.push(node);
-      }
+        if (node.negotiable) {
+            /**
+             * When something is negotiable,
+             * it carries no allegiance — only memory.
+             * So we ask the wind, flip a coin, or follow instinct.
+             * Let it fall where it may.
+             */
+            const final = Math.random() > 0.5 ? "userA" : "userB";
+            node.finalOwner = final;
+            final === "userA" ? userA.push(node) : userB.push(node);
+        } else {
+            /**
+             * But when something is not negotiable,
+             * it already knows where it belongs.
+             * This is the boundary drawn not in anger, but in truth.
+             */
+            node.finalOwner = node.affinity === "shared" ?  Math.random() > 0.5 ? "userA" : "userB" : node.affinity; // default shared to A, gently
+            node.finalOwner === "userA" ? userA.push(node) : userB.push(node);
+        }
     }
   
     return { userA, userB };
