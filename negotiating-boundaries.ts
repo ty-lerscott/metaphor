@@ -36,9 +36,8 @@ export default function negotiateBoundaries(graph: Graph): { userA: BoundaryNode
              * So we ask the wind, flip a coin, or follow instinct.
              * Let it fall where it may.
              */
-            const final = Math.random() > 0.5 ? "userA" : "userB";
-            node.finalOwner = final;
-            (final === "userA" ? userA : userB).push(node);
+            node.finalOwner = Math.random() > 0.5 ? "userA" : "userB";
+            (node.finalOwner === "userA" ? userA : userB).push(node);
         } else {
             /**
              * But when something is not negotiable,
