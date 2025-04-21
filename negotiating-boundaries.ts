@@ -38,7 +38,7 @@ export default function negotiateBoundaries(graph: Graph): { userA: BoundaryNode
              */
             const final = Math.random() > 0.5 ? "userA" : "userB";
             node.finalOwner = final;
-            final === "userA" ? userA.push(node) : userB.push(node);
+            (final === "userA" ? userA : userB).push(node);
         } else {
             /**
              * But when something is not negotiable,
@@ -46,7 +46,7 @@ export default function negotiateBoundaries(graph: Graph): { userA: BoundaryNode
              * This is the boundary drawn not in anger, but in truth.
              */
             node.finalOwner = node.affinity === "shared" ?  Math.random() > 0.5 ? "userA" : "userB" : node.affinity; // default shared to A, gently
-            node.finalOwner === "userA" ? userA.push(node) : userB.push(node);
+            (node.finalOwner === "userA" ? userA : userB).push(node);
         }
     }
   
