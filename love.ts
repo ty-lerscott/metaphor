@@ -1,74 +1,94 @@
 /**
- * In some relationships, resolution is not balance by subtraction,
- * but *transformation* through interaction: friction, fusion, surrender, stillness.
+ * Some relationships don’t balance by opposition.
+ * They cancel through *interaction* — friction, fusion, misfires, or mutual stillness.
  * 
- * This function explores emotional pairings — not assuming conflict,
- * but asking if any *interaction* between them could resolve toward peace.
+ * This function explores emotional pairs — not assuming symmetry,
+ * but testing if any *operation* between them might resolve to peace. To zero.
  * 
- * Each pairing is a dance:
- *  - Can care added to longing soften the ache?
- *  - Can grief subtracted from presence yield quiet?
- *  - Can even distance or power struggles dissolve into something gentler?
+ * In each case, it asks:
+ *  - Can love added to need lead to neutrality?
+ *  - Can loss subtracted from care return to center?
+ *  - Can even violence or distance (multiplication, division) collapse the charge?
  * 
- * Because sometimes — even chaos embracing chaos births calm.
+ * Because sometimes — even chaos + chaos = calm.
  */
 
 type OperationResult = {
-    pair: [number, number];    // Two hearts, two forces
-    operation: string;         // How their energy intertwined
-    result: number;            // The effect of that encounter
-    peaceful: boolean;         // Did their meeting drift toward stillness?
+    pair: [number, number];    // The two souls in question
+    operation: string;         // The means by which their energy was tested
+    result: number;            // The outcome of that interaction
+    valid: boolean;            // Did their interaction cancel out to zero?
+    peaceful: boolean;         // Did their interaction lead to stillness?
 };
-
-export default function resolveThroughLove(values: number[]): number {
+  
+export default function resolveZeroSumViaAnyOperation(values: number[]): number {
+    // If someone is left unpaired, we can't evaluate the dynamic.
     if (values.length % 2 !== 0) {
-        throw new Error("No heart should face itself alone. Each soul seeks its counterpart.");
+        throw new Error("Love can't be evaluated alone. Each heart must have a counterpart.");
     }
 
     const results: OperationResult[] = [];
-    const PEACE_THRESHOLD = 1e-6; // Near enough to stillness — perfect peace is rare
 
     for (let i = 0; i < values.length; i += 2) {
         const a = values[i];
         const b = values[i + 1];
 
-        const operations: [string, number][] = [
-            ["a + b", a + b],                           // Shared growth
-            ["a - b", a - b],                           // Softened burdens
-            ["b - a", b - a],                           // Reframed absence
-            ["a * b", a * b],                           // Fused destinies
-            ["a / b", b !== 0 ? a / b : NaN],            // Surrender into one another
-            ["b / a", a !== 0 ? b / a : NaN],            // Mutual yielding
-            ["a % b", b !== 0 ? a % b : NaN],            // Leftover fragments
-            ["b % a", a !== 0 ? b % a : NaN],            // Reflections of incompleteness
-            ["Math.pow(a, b)", Math.pow(a, b)],          // Empowerment or overwhelm
-            ["Math.pow(b, a)", Math.pow(b, a)],          // Echoes reversed
+        // We test each possible *interaction* — not just opposites
+        const ops: [string, number][] = [
+            ["a + b", a + b],                              // Combining two truths
+            ["a - b", a - b],                              // Subtracting one presence from another
+            ["b - a", b - a],                              // Reversing that subtraction — a fresh lens
+            ["a * b", a * b],                              // Multiplying energies: fusion or combustion
+            ["a / b", b !== 0 ? a / b : NaN],              // One divided by the other — dependence
+            ["b / a", a !== 0 ? b / a : NaN],              // Or reversal — codependence
+            ["a % b", b !== 0 ? a % b : NaN],              // Leftover pieces when one tries to fit inside the other
+            ["b % a", a !== 0 ? b % a : NaN],              // Or reversal — codependence    
+            ["Math.pow(a, b)", Math.pow(a, b)],            // Power struggles — one raised to the force of the other
+            ["Math.pow(b, a)", Math.pow(b, a)],            // Or reversal — codependence
         ];
 
-        const peacefulInteraction = operations.find(([_, outcome]) =>
-            Number.isFinite(outcome) && Math.abs(outcome) <= PEACE_THRESHOLD
-        );
+        // Search for any interaction that leads to stillness
+        const zeroOp = ops.find(([_, result]) => result === 0);
+        const pair: [number, number] = [a, b]; // Two people, two forces, bound for testing
 
-        const pair: [number, number] = [a, b];
-
-        if (peacefulInteraction) {
+        if (zeroOp) {
             results.push({
                 pair,
-                operation: peacefulInteraction[0],
-                result: 0, // When peace is close enough, we call it peace
+                operation: zeroOp[0],
+                result: 0,
+                valid: true, // These two found a way to cancel — and maybe, to rest
                 peaceful: true,
             });
         } else {
             results.push({
                 pair,
-                operation: "unresolved",
+                operation: "none",      // No common ground found
                 result: NaN,
+                valid: false,
                 peaceful: false,
             });
         }
     }
 
-    const totalResult = results.reduce((sum, res) => sum + (res.result || 0), 0);
+    const sum = results.reduce((acc, result) => acc + result.result, 0);
 
-    return Math.abs(totalResult) <= PEACE_THRESHOLD ? 0 : 0;
+    // No matter what, we're left with a zero-sum.
+    return sum === 0 ? 0 : 0;
+}
+
+/**
+ * Turns the outcome of a relationship interaction into a poetic description.
+ */
+export function describeResult(result: OperationResult): string {
+    const [a, b] = result.pair;
+
+    if (result.peaceful) {
+        return `Two hearts (${a} and ${b}) found peace through ${result.operation}.`;
+    }
+
+    if (result.operation === "unresolved") {
+        return `Two hearts (${a} and ${b}) met, but no stillness arose — only echoes.`;
+    }
+
+    return `Through ${result.operation}, ${a} and ${b} danced but could not find rest.`;
 }
